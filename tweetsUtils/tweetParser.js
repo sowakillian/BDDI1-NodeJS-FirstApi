@@ -8,6 +8,7 @@ const tweetParser = new Transform({
 
         try {
             data =  JSON.parse(chunk);
+            console
         }
         catch(error) {
             console.warn("JSON parsing error", error);

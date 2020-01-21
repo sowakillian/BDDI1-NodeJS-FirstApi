@@ -12,7 +12,14 @@ const server = http.createServer((request, response) => {
     }
 });
 
-module.exports = server;
+const wsServer = new WebSocket.Server({
+    server
+});
+
+module.exports = {
+    server,
+    wsServer
+};
 
 
 

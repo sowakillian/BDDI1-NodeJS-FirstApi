@@ -3,6 +3,21 @@
 <head>
     <meta charset="utf-8">
     <title>WebSockets Demo</title>
+
+    <script>
+        const url = "ws://localhost:8080";
+        const connection = new WebSocket(url);
+
+        connection.addEventListener('open', (event) => {
+            console.log("connected", event)
+        });
+
+        connection.addEventListener('message', (event) => {
+            console.log("message", event.data)
+
+            connection.send("réponse du client");
+        });
+    </script>
 </head>
 <body>
 <div id="page-wrapper">

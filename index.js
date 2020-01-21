@@ -1,11 +1,13 @@
 require("dotenv").config();
 
-const server = require("./server");
+const { server, wsServer } = require("./server");
 const { pipeline } = require("stream");
 const request = require("request");
 const tweetSplitter = require("./tweetsUtils/tweetSplitter");
 const tweetParser = require("./tweetsUtils/tweetParser");
 const logger = require("./logger");
+
+const WsWriter = require("./wsWritter");
 
 //const httpStream = request.get("https://stream.twitter.com/1.1/statuses/sample.json", {
 const httpStream = request.post(`${process.env.TWITTER_API_STREAM_URL}/statuses/filter.json`, {
@@ -22,14 +24,30 @@ const httpStream = request.post(`${process.env.TWITTER_API_STREAM_URL}/statuses/
     }
 });
 
-pipeline(
-    httpStream,
-    tweetSplitter,
-    tweetParser,
-    logger,
-    error => {
-        console.error("error", error);
-    }
-);
+const twitterStream = httpStream
+    .pipe(tweetSplitter)
+    //.pipe(tweetParser);
+
+//pipeline(
+//    httpStream,
+//    tweetSplitter,
+//    tweetParser,
+//    logger,
+//    error => {
+//        console.error("error", error);
+//    }
+//);
+
+wsServer.on('connection', (ws) => {
+    console.log("new connection");
+    ws.send('du texte');
+
+    ws.on('message', (message) => {
+        console.log("message du client", message)
+    });
+
+    const wsWriter = new WsWriter(ws);
+    twitterStream.pipe(wsWriter);
+});
 
 server.listen(process.env.PORT);

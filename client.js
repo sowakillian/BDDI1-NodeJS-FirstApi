@@ -1,15 +1,13 @@
-const WebSocket = require('ws');
-const url = 'ws://localhost:8080';
+const url = "ws://localhost:8080";
 const connection = new WebSocket(url);
 
-connection.onopen = () => {
-    connection.send('Message From Client')
-};
+connection.addEventListener('open', (event) => {
+    console.log("connected", event)
+});
 
-connection.onerror = (error) => {
-    console.log(`WebSocket error: ${error}`)
-};
+connection.addEventListener('message', (event) => {
+    console.log("message", event.data)
 
-connection.onmessage = (e) => {
-    console.log(e.data)
-};
+    connection.send("réponse du client");
+});
+
