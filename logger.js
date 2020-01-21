@@ -6,9 +6,9 @@ const logger = new Writable({
 
         const data = JSON.stringify(chunk);
 
-        console.log("-------------")
-        console.log(data)
-        console.log("\n\n")
+        console.log("-------------");
+        console.log(data);
+        console.log("\n\n");
 
         callback();
     }
