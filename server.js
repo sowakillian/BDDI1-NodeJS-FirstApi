@@ -1,22 +1,18 @@
 const http = require("http");
 const fs = require("fs");
+const WebSocket = require('ws');
 const { pipeline } = require("stream");
 
 const server = http.createServer((request, response) => {
     if (request.url === "/") {
-        const fileStream = fs.createReadStream("./public/index.html");
-        pipeline(
-            fileStream,
-            response,
-            error => {
-                console.error(error);
-                response.writeHead(500);
-                response.end("an error occured");
-            }
-        )
+        const file = fs.readFile("./public/index.html", (error, file) => {
+            response.writeHead(200);
+            response.end(file);
+        });
     }
 });
 
-server.listen(8080);
+module.exports = server;
+
 
 

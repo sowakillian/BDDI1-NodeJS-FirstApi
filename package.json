@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sowakillian/NodeJS-Twitter#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "request": "^2.88.0",
     "ws": "^7.2.1"
   }
