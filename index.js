@@ -1,7 +1,7 @@
 const { pipeline } = require("stream");
 const request = require("request");
-const tweetSplitter = require("./tweetsFilters/tweetSplitter");
-const tweetParser = require("./tweetsFilters/tweetParser");
+const tweetSplitter = require("./tweetsUtils/tweetSplitter");
+const tweetParser = require("./tweetsUtils/tweetParser");
 const logger = require("./logger");
 
 //const httpStream = request.get("https://stream.twitter.com/1.1/statuses/sample.json", {

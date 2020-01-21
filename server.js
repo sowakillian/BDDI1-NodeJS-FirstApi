@@ -1,10 +1,22 @@
-const WebSocket = require('ws');
+const http = require("http");
+const fs = require("fs");
+const { pipeline } = require("stream");
 
-const wss = new WebSocket.Server({ port: 8080 })
-
-wss.on('connection', ws => {
-    ws.on('message', message => {
-        console.log(`Received message => ${message}`)
-    });
-    ws.send('Message From Server!!')
+const server = http.createServer((request, response) => {
+    if (request.url === "/") {
+        const fileStream = fs.createReadStream("./public/index.html");
+        pipeline(
+            fileStream,
+            response,
+            error => {
+                console.error(error);
+                response.writeHead(500);
+                response.end("an error occured");
+            }
+        )
+    }
 });
+
+server.listen(8080);
+
+
